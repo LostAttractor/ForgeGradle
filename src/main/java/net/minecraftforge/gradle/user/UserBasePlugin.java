@@ -19,8 +19,6 @@
  */
 package net.minecraftforge.gradle.user;
 
-import club.chachy.GitVersion;
-import club.chachy.data.GitData;
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
@@ -316,31 +314,6 @@ public abstract class UserBasePlugin<T extends UserBaseExtension> extends BasePl
 
             recompile.dependsOn(remap, TASK_DL_VERSION_JSON);
         }
-
-
-        CreateStartTask makeProperties = makeTask(TASK_MAKE_PROPERTIES, CreateStartTask.class);
-        {
-            makeProperties.addResource("net/minecraftforge/gradle/version/ProjectVersion.java");
-            GitData propertyData;
-            if (getExtension().isGitVersion()) {
-                propertyData = GitVersion.Companion.invoke(project.getProjectDir());
-            } else {
-                propertyData = new GitData("unknown", project.getVersion().toString());
-            }
-            makeProperties.addReplacement("@@PROJECT_VERSION@@", propertyData.getCommit());
-            makeProperties.addReplacement("@@GIT_BRANCH@@", propertyData.getBranch());
-            makeProperties.setStartOut(getStartDir());
-            makeProperties.setDoesCache(false);
-            makeProperties.getOutputs().upToDateWhen(CALL_FALSE); //TODO: Abrar, Fix this...
-        }
-
-        project.afterEvaluate(project1 -> {
-            try {
-                makeProperties.doStuff();
-            } catch (IOException exception) {
-                exception.printStackTrace();
-            }
-        });
 
         // create GradleStart
         final CreateStartTask makeStart = makeTask(TASK_MAKE_START, CreateStartTask.class);

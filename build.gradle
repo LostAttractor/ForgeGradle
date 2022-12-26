@@ -29,20 +29,20 @@ archivesBaseName = 'ForgeGradle'
 targetCompatibility = sourceCompatibility = 1.8
 
 repositories {
+    jcenter() // get as many deps from here as possible
     mavenLocal()
+    mavenCentral()
+
     maven {
         name = "forge"
         url = "https://maven.minecraftforge.net/"
     }
-    jcenter() // get as many deps from here as possible
-    mavenCentral()
 
     // because SS and its snapshot
     maven {
         name = "sonatype"
         url = "https://oss.sonatype.org/content/repositories/snapshots/"
     }
-
 
     // because of the GradleStart stuff
     maven {
@@ -51,7 +51,8 @@ repositories {
     }
 
     maven {
-        url "https://jitpack.io"
+        name = "jitpack"
+        url = "https://jitpack.io"
     }
 }
 
@@ -76,12 +77,6 @@ dependencies {
     // moved to the beginning to be the overrider
     implementation 'org.ow2.asm:asm-debug-all:5.0.3'
     implementation 'com.google.guava:guava:18.0'
-
-    implementation('club.chachy:GitVersion:394b3c5363') {
-        exclude module: 'org.eclipse.jgit'
-    }
-
-    shade "org.eclipse.jgit:org.eclipse.jgit:5.11.0.202103091610-r"
 
     implementation 'net.sf.opencsv:opencsv:2.3' // reading CSVs.. also used by SpecialSource
     implementation 'com.cloudbees:diff4j:1.1' // for difing and patching
