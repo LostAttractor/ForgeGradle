@@ -52,6 +52,7 @@ import com.google.common.io.Files;
 public class DownloadAssetsTask extends DefaultTask {
     DelayedFile assetsDir;
 
+    @InputFile
     Object assetIndex;
 
     private File virtualRoot = null;
@@ -103,7 +104,6 @@ public class DownloadAssetsTask extends DefaultTask {
         this.assetsDir = assetsDir;
     }
 
-    @InputFile
     public File getAssetsIndex() {
         return getProject().file(assetIndex);
     }
